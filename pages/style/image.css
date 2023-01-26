@@ -1,0 +1,20 @@
+#image {
+    display: block;
+    width: 100%;
+}
+
+#image-wrapper:not([data-view="image"]) #image {
+    display: none;
+}
+
+#image-wrapper:not([data-view="loading"]) #loading {
+    display: none;
+}
+
+#error {
+    color: red;
+}
+
+#image-wrapper:not([data-view="error"]) #error {
+    display: none;
+}
