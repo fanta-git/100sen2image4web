@@ -33,7 +33,7 @@ async function fetchPlaylist (id) {
     if (!id) return;
     const url = new URL(API_ENDPOINT);
     url.search = new URLSearchParams({ id });
-    const res = await fetch(url);
+    const res = await fetch(url, { mode: 'no-cors' });
     if (!res.ok) throw Error(res.status + ": " + res.statusText);
     return res.json();
 }

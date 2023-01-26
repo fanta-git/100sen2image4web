@@ -10,3 +10,11 @@
 #image-wrapper:not([data-view="loading"]) #loading {
     display: none;
 }
+
+#error {
+    color: red;
+}
+
+#image-wrapper:not([data-view="error"]) #error {
+    display: none;
+}

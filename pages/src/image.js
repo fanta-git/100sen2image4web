@@ -1,13 +1,19 @@
 async function main () {
-    const imgWrapper = document.querySelector('#image-wrapper');
-    const img = document.querySelector('#image');
-    const params = getSearchParams();
-    const listUrl = 'https://kiite.jp/playlist/' + params.id;
+    try {
+        const imgWrapper = document.querySelector('#image-wrapper');
+        const img = document.querySelector('#image');
+        const params = getSearchParams();
+        const listUrl = 'https://kiite.jp/playlist/' + params.id;
 
-    imgWrapper.dataset.view = 'loading';
-    img.alt = listUrl;
-    img.src = await genImage(params);
-    imgWrapper.dataset.view = 'image';
+        imgWrapper.dataset.view = 'loading';
+        img.alt = listUrl;
+        img.src = await genImage(params);
+        imgWrapper.dataset.view = 'image';
+    } catch (e) {
+        document.querySelector('#image-wrapper').dataset.view = 'error';
+        document.querySelector('#error').innerHTML = `Error!: ${e.name}<br>${e.message}`;
+        console.error(e);
+    }
 }
 
 function getSearchParams () {
