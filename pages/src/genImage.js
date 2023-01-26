@@ -2,9 +2,7 @@ const API_ENDPOINT = "https://script.google.com/macros/s/AKfycbxXJD1TDh95gXeMAKO
 const [RATIO_W, RATIO_H] = [16, 9];
 const SCALE = 10;
 
-async function genImage () {
-    const params = getSearchParams();
-
+async function genImage (params) {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     [canvas.width, canvas.height] = [params.cellX * RATIO_W * SCALE, params.cellY * RATIO_H * SCALE];
@@ -44,14 +42,4 @@ function loadImage (url, elem = new Image()) {
         elem.onerror = reject;
         elem.src = url;
     });
-}
-
-function getSearchParams () {
-    const params = new URL(window.location.href).searchParams;
-    const result = {};
-    for (const [key, val] of params) {
-        const camel = key.split('_').reduce((p, c) => p + (c ? c.charAt(0).toUpperCase() + c.slice(1) : c));
-        result[camel] = val;
-    }
-    return result;
 }
