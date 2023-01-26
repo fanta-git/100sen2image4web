@@ -1,4 +1,4 @@
-const API_ENDPOINT = "https://script.google.com/macros/s/AKfycbwXlLbAUF-rGYjbF-xoHrPTKjrjRLd36iqU3WqEIAzJSypjVpq64uBhrEO_kQenVKN9/exec";
+const API_ENDPOINT = "https://script.google.com/macros/s/AKfycby4a6Yn3su1IC6pd5zygJvN8a8TyXWfObyS_85RnObrDsDbA4Ht_V7Gszb7HqoAj0Nl/exec";
 const [RATIO_W, RATIO_H] = [16, 9];
 const SCALE = 10;
 
@@ -33,6 +33,7 @@ async function fetchPlaylist (id) {
     if (!id) return;
     const url = new URL(API_ENDPOINT);
     url.search = new URLSearchParams({ id });
+    console.log(url.toString());
     const res = await fetch(url);
     if (!res.ok) throw Error(res.status + ": " + res.statusText);
     return res.json();
