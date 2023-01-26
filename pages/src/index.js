@@ -2,11 +2,13 @@ let playlist;
 
 async function displayImg () {
     try {
-        const listUrl = document.querySelector('#list-url')?.value;
+        const listUrlDom = document.querySelector('#list-url');
+        const listUrl = listUrlDom?.value;
         const cellX = document.querySelector('#cell-x')?.value;
         const cellY = document.querySelector('#cell-y')?.value;
 
         if (/^https:\/\/kiite.jp\/playlist\/\w{10}/.test(listUrl)) {
+            listUrlDom.classList.remove('input-error');
             const imgWrapper = document.querySelector('#image-wrapper');
             const img = document.querySelector('#image');
             imgWrapper.dataset.view = 'loading';
@@ -17,6 +19,7 @@ async function displayImg () {
                     playlist = await fetchPlaylist(id);
                 } catch (e) {
                     console.error(e);
+                    listUrlDom.classList.add('input-error');
                     if (!playlist) {
                         imgWrapper.dataset.view = 'void';
                         return;
@@ -26,8 +29,15 @@ async function displayImg () {
             const params = { playlist, cellX, cellY };
 
             img.alt = listUrl;
-                img.src = await genImage(params);
+            img.src = await genImage(params);
             imgWrapper.dataset.view = 'image';
+        } else {
+            if (listUrl) {
+                listUrlDom.classList.add('input-error');
+            } else {
+                listUrlDom.classList.remove('input-error');
+
+            }
         }
     } catch (e) {
         return displayError(e);

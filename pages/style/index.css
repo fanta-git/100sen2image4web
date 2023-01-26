@@ -8,6 +8,11 @@ header a {
     font-size: 1em;
 }
 
+.input-error {
+    border: 3px solid #ff5c5c;
+    background-color: #ffc3c3;
+}
+
 .vertical {
     display: flex;
     column-gap: 1em;
