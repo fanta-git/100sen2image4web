@@ -18,7 +18,7 @@ header a {
     column-gap: 1em;
 }
 
-#cell-width, #cell-height {
+#cell-x, #cell-y {
     width: 100%;
 }
 
