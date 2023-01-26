@@ -7,7 +7,8 @@ async function genImage (params) {
     const ctx = canvas.getContext('2d');
     [canvas.width, canvas.height] = [params.cellX * RATIO_W * SCALE, params.cellY * RATIO_H * SCALE];
 
-    const playlist = await fetchPlaylist(params.id);
+    const playlist = params.playlist ?? await fetchPlaylist(params.id);
+    console.log(playlist);
     for (const [key, song] of playlist.songs.entries()) {
         const imgUrl = song.thumbnailBase;
         const img = await loadImage(imgUrl);
@@ -29,6 +30,7 @@ async function genImage (params) {
 }
 
 async function fetchPlaylist (id) {
+    if (!id) return;
     const url = new URL(API_ENDPOINT);
     url.search = new URLSearchParams({ id });
     const res = await fetch(url);

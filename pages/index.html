@@ -14,22 +14,18 @@
     <header><a href="/index.html"><h1>100sen2image4web</h1></a></header>
     <p>
         <label for="list-url">プレイリストのURL</label><br>
-        <input type="text" id="list-url" required placeholder="https://kiite.jp/playlist/xxxxxxxx">
+        <input type="text" id="list-url" required placeholder="https://kiite.jp/playlist/xxxxxxxx" oninput=displayImg(this)>
     </p>
     <div class="vertical">
         <p>
             <label for="cell-width">横</label><br>
-            <input type="number" id="cell-x" required value="10" min="1">
+            <input type="number" id="cell-x" required value="10" min="1" oninput=displayImg(this)>
         </p>
         <p>
             <label for="cell-height">縦</label><br>
-            <input type="number" id="cell-y" required value="10" min="1">
+            <input type="number" id="cell-y" required value="10" min="1" oninput=displayImg(this)>
         </p>
     </div>
-
-    <p>
-        <button onclick="genBtnOnClick()">生成</button>
-    </p>
 
     <div id="image-wrapper" data-view="void">
         <img id="loading" src="./img/loading.svg" alt="loading">
