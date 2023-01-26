@@ -13,8 +13,21 @@
     width: 100%;
 }
 
+#image-wrapper {
+    text-align: center;
+}
+
 #image {
+    display: block;
     width: 100%;
+}
+
+#image-wrapper:not([data-view="image"]) #image {
+    display: none;
+}
+
+#image-wrapper:not([data-view="loading"]) #loading {
+    display: none;
 }
 
 @media (max-width: 800px) {

@@ -7,9 +7,13 @@ async function genBtnOnClick () {
         const [, id] = listUrl.match(/https:\/\/kiite.jp\/playlist\/(\w+)/);
         url.search = new URLSearchParams({ id, cell_x: cellX, cell_y: cellY });
         window.history.replaceState(null, '', url);
-        const img = document.getElementById("image");
-        img.src = await genImage();
+        const imgWrapper = document.querySelector('#image-wrapper');
+        const img = document.querySelector('#image');
+
+        imgWrapper.dataset.view = 'loading';
         img.alt = listUrl;
+        img.src = await genImage();
+        imgWrapper.dataset.view = 'image';
     }
 }
 

@@ -7,13 +7,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>100sen2image4web</title>
   <script src="src/genImage.js"></script>
-  <script defer src="src/main.js"></script>
+  <script defer src="src/image.js"></script>
+  <link rel="stylesheet" href="style/image.css">
 </head>
 
 <body>
 
   <body>
-    <img id="image" src="#" width="1600" height="900">
+    <div id="image-wrapper" data-view="void">
+      <img id="loading" src="./img/loading.svg" alt="loading">
+      <img id="image">
+    </div>
   </body>
 
 </body>
