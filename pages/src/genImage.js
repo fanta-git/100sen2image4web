@@ -3,23 +3,20 @@ const [RATIO_W, RATIO_H] = [16, 9];
 const SCALE = 10;
 
 async function genImage () {
-    const param = new URL(window.location.href).searchParams;
-    const id = param.get('id');
-    const cellX = param.get('cell_x') ?? 10;
-    const cellY = param.get('cell_y') ?? 10;
+    const params = getSearchParams();
 
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    [canvas.width, canvas.height] = [cellX * RATIO_W * SCALE, cellY * RATIO_H * SCALE];
+    [canvas.width, canvas.height] = [params.cellX * RATIO_W * SCALE, params.cellY * RATIO_H * SCALE];
 
-    const playlist = await fetchPlaylist(id);
+    const playlist = await fetchPlaylist(params.id);
     for (const [key, song] of playlist.songs.entries()) {
         const imgUrl = song.thumbnailBase;
         const img = await loadImage(imgUrl);
         const ratioDiff = img.width * RATIO_H - img.height * RATIO_W;
 
         const [cellWidth, cellHeight] = [SCALE * RATIO_W, SCALE * RATIO_H];
-        const [x, y] = [key % cellX, key / cellX | 0];
+        const [x, y] = [key % params.cellX, key / params.cellX | 0];
 
         const souceWidth = ratioDiff > 0 ? img.height * RATIO_W / RATIO_H | 0 : img.width;
         const souceHeight = ratioDiff < 0 ? img.width * RATIO_H / RATIO_W | 0 : img.height;
@@ -41,10 +38,20 @@ async function fetchPlaylist (id) {
     return res.json();
 }
 
-function loadImage(url, elem = new Image()) {
+function loadImage (url, elem = new Image()) {
     return new Promise((resolve, reject) => {
         elem.onload = resolve.bind(null, elem);
         elem.onerror = reject;
         elem.src = url;
     });
+}
+
+function getSearchParams () {
+    const params = new URL(window.location.href).searchParams;
+    const result = {};
+    for (const [key, val] of params) {
+        const camel = key.split('_').reduce((p, c) => p + (c ? c.charAt(0).toUpperCase() + c.slice(1) : c));
+        result[camel] = val;
+    }
+    return result;
 }
