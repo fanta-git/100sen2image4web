@@ -6,6 +6,7 @@ async function displayImg () {
         const listUrl = listUrlDom?.value;
         const cellX = document.querySelector('#cell-x')?.value;
         const cellY = document.querySelector('#cell-y')?.value;
+        const insertOther = document.querySelector('#insert-other')?.checked;
 
         if (/^https:\/\/kiite.jp\/playlist\/\w{10}/.test(listUrl)) {
             listUrlDom.classList.remove('input-error');
@@ -26,7 +27,7 @@ async function displayImg () {
                     }
                 }
             }
-            const params = { playlist, cellX, cellY };
+            const params = { playlist, cellX, cellY, insertOther };
 
             img.alt = listUrl;
             img.src = await genImage(params);

@@ -6,7 +6,7 @@ function doGet(e) {
 
     if (/\w{8}/.test(playlistId)) {
         const playlist = fetchListData(playlistId);
-        if (e.parameter['insert-other']) insertOtherLink(playlist);
+        if (e.parameter.insert_other) insertOtherLink(playlist);
 
         return createJsonOutput(playlist);
     }
@@ -21,7 +21,7 @@ function insertOtherLink(playlist) {
 
     for (const [id, url, thumbnailBase, order] of zip(ids, urls, thumbnailBases, orders)) {
         if (!id) continue;
-        const index = playlist.songs.findIndex(v => v.order > order);
+        const index = playlist.songs.findIndex(v => v.order_num > order);
         const song = {
             video_id: id,
             type: 'youtube',

@@ -1,4 +1,4 @@
-const API_ENDPOINT = "https://script.google.com/macros/s/AKfycby4a6Yn3su1IC6pd5zygJvN8a8TyXWfObyS_85RnObrDsDbA4Ht_V7Gszb7HqoAj0Nl/exec";
+const API_ENDPOINT = "https://script.google.com/macros/s/AKfycbwvqXp6FK5WU4Pzp_BRLrSKsq9D1Vqvt2wkaHVp6ASRTkUilNmXSompmqqXJkWyURdH/exec";
 const [RATIO_W, RATIO_H] = [16, 9];
 const SCALE = 10;
 
@@ -9,7 +9,9 @@ async function genImage (params) {
 
     const playlist = params.playlist ?? await fetchPlaylist(params.id);
     console.log(playlist);
-    for (const [key, song] of playlist.songs.entries()) {
+    const songs = params.insertOther ? playlist.songs : playlist.songs.filter(v => v.type === undefined) ;
+    console.log(params.insertOther, songs);
+    for (const [key, song] of songs.entries()) {
         const imgUrl = song.thumbnailBase;
         const img = await loadImage(imgUrl);
         const ratioDiff = img.width * RATIO_H - img.height * RATIO_W;
@@ -32,7 +34,7 @@ async function genImage (params) {
 async function fetchPlaylist (id) {
     if (!id) return;
     const url = new URL(API_ENDPOINT);
-    url.search = new URLSearchParams({ id });
+    url.search = new URLSearchParams({ id, insert_other: 1 });
     console.log(url.toString());
     const res = await fetch(url);
     if (!res.ok) throw Error(res.status + ": " + res.statusText);
