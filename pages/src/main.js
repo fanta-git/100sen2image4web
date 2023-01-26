@@ -1,10 +1,11 @@
-const API_ENDPOINT = "https://script.google.com/macros/s/AKfycbzpeyI73E8tVuzf9vS40fhkxfRUKFZH_qTixcZ3k0H9DSnAeCSd-HB6ln7wHACXeGq-/exec";
+const API_ENDPOINT = "https://script.google.com/macros/s/AKfycbxXJD1TDh95gXeMAKOj28Pt4XI6bDzJTePr0s6YNNueG_8CD-7CzOawQPTRID0aEqZn/exec";
 const [RATIO_W, RATIO_H] = [16, 9];
 
 async function main () {
     const SCALE = 10;
     const [CELL_X, CELL_Y] = [10, 10];
-    const playlist = await fetch(API_ENDPOINT).then(v => v.json());
+    const param = new URL(window.location.href).searchParams;
+    const playlist = await fetchPlaylist(param.get('id'));
     console.log(playlist);
 
     const canvas = document.createElement('canvas');
@@ -29,6 +30,14 @@ async function main () {
 
     const blob = await new Promise((resolve) => canvas.toBlob(resolve));
     document.getElementById("image").src = URL.createObjectURL(blob);
+}
+
+async function fetchPlaylist (id) {
+    const url = new URL(API_ENDPOINT);
+    url.search = new URLSearchParams({ id });
+    const res = await fetch(url);
+    if (!res.ok) throw Error(res.status + ": " + res.statusText);
+    return res.json();
 }
 
 function loadImage(url, elem = new Image()) {
