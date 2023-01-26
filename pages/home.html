@@ -3,17 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1/new.min.css">
+    <link rel="stylesheet" href="style/home.css">
     <title>100sen2image4web</title>
     <script defer src="src/home.js"></script>
 </head>
 <body>
     <header><h1>100sen2image4web</h1></header>
     <p>
-        <label for="list-url">リストのURL</label><br>
-        <input type="text" name="url" id="list-url" placeholder="https://kiite.jp/playlist/xxx" style="width: 20em;">
+        <label for="list-url">プレイリストのURL</label><br>
+        <input type="text" id="list-url" required placeholder="https://kiite.jp/playlist/xxxxxxxx">
     </p>
+    <div class="vertical">
+        <p>
+            <label for="cell-width">横</label><br>
+            <input type="number" id="cell-width" required value="10" min="1">
+        </p>
+        <p>
+            <label for="cell-height">縦</label><br>
+            <input type="number" id="cell-height" required value="10" min="1">
+        </p>
+    </div>
+
     <p>
         <button onclick="genImage()">生成</button>
     </p>
