@@ -13,6 +13,7 @@ async function genImage (params) {
     console.log(params.insertOther, songs);
     for (const [key, song] of songs.entries()) {
         const imgUrl = song.thumbnailBase;
+        if (imgUrl == undefined) continue;
         const img = await loadImage(imgUrl);
         const ratioDiff = img.width * RATIO_H - img.height * RATIO_W;
 
