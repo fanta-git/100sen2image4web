@@ -40,19 +40,32 @@ function insertOtherLink(playlist) {
 
 function fetchListData(listId) {
     const listData = fetchJson('https://cafeapi.kiite.jp/api/playlists/contents/detail', { list_id: listId });
-    const songsData = fetchJson('https://cafeapi.kiite.jp/api/songs/by_video_ids', { video_ids: listData.songs.map(v => v.video_id) });
-    const thumbnailBases = fetchImageBases(songsData.map(v => v.video_thumbnail));
+    for (const songs of [listData.songs.slice(0, 50), listData.songs.slice(50, 100)]) {
+        const snapshotParam = {
+            q: '',
+            fields: 'contentId,thumbnailUrl',
+            _sort: '-viewCounter',
+            _context: '100sen2img4web',
+            _limit: 100
+        };
 
-    for (const [detail, thumbnailBase] of zip(songsData, thumbnailBases)) {
-        const targetSong = listData.songs.find(v => v.video_id === detail.video_id);
-        Object.assign(targetSong, detail, { thumbnailBase });
+        for (const song of songs) {
+            snapshotParam[`filters[contentId][${song.order_num}]`] = song.video_id;
+        }
+        const songsData = fetchJson('https://api.search.nicovideo.jp/api/v2/snapshot/video/contents/search', snapshotParam);
+        const thumbnailBases = fetchImageBases(songsData.data.map(v => v.thumbnailUrl));
+
+        for (const [detail, thumbnailBase] of zip(songsData.data, thumbnailBases)) {
+            const targetSong = listData.songs.find(v => v.video_id === detail.contentId);
+            Object.assign(targetSong, detail, { thumbnailBase });
+        }
     }
 
     return listData;
 }
 
 function fetchJson(url, param) {
-    const paramStr = param ? "?" + Object.entries(param).map(([k, v]) => k + "=" + String(v)).join(",") : "";
+    const paramStr = param ? "?" + Object.entries(param).map(([k, v]) => k + "=" + String(v)).join("&") : "";
     const res = UrlFetchApp.fetch(url + paramStr);
     return JSON.parse(res.getContentText());
 }
