@@ -12,6 +12,10 @@ function doGet(e) {
     }
 }
 
+function test() {
+  const t = doGet({ parameter: { id: 'fU1COPTqGV', insert_other: true }});
+}
+
 function insertOtherLink(playlist) {
     const ids = playlist.description.match(/(?<=https:\/\/www\.youtube.com\/watch\?v=)\w+/g) ?? [];
     const urls = ids.map(v => `https://img.youtube.com/vi/${v}/default.jpg`);
@@ -71,7 +75,8 @@ function fetchJson(url, param) {
 }
 
 function fetchImageBases(urls) {
-    return UrlFetchApp.fetchAll(urls).map(v =>
+    const requests = urls.map(v => ({ url: v, muteHttpExceptions: true }));
+    return UrlFetchApp.fetchAll(requests).map(v =>
         "data:image/png;base64,"
         + Utilities.base64Encode(v.getBlob().getBytes())
     );
